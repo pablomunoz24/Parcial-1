@@ -38,27 +38,37 @@ using namespace std;
 */
 void comparacion(bool b,int cc, int c, char **prueba, int n, char **codigo);
 
+int horarios (char d, int s , int e , int dias[7][15] , int j ,int num,int cic,int ca ,int cb);
+int semana(int cr);
+int crh,cr;
+char hdias[15];
+int horasd[8];
+int cont=0,cont2=0;
+char d ;
+int s, e;
+int dias[7][15]={
+
+
+    {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
+    {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
+    {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
+    {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
+    {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
+    {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
+    {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
+
+    };
+
 int main()
 {
 
-    char dias[7][15]={
-
-       {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
-       {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
-       {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
-       {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
-       {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
-       {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
-       {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22},
-
-       };
        int n=1;    //cantida de filas inicial del arreglo
        int a=1;    // variable para seguir registrando o no
        bool b=false;    // para saber si esta repetida el dato
        int c=0;    // verificar palabra repetida
        int cc=0;   // si no esta repetida
 
-        char **creditos= new char*[n];   //creo un puntero (nombre)de filas y columnas y reservo espacio de n filas
+        int **creditos= new int*[n];   //creo un puntero (nombre)de filas y columnas y reservo espacio de n filas
         char **codigo= new char*[n];
         char **cedula=new char*[n];
         char **materia= new char*[n];
@@ -71,15 +81,19 @@ int main()
 
 
         cout << "ingrese numero de creditos: ";
-        creditos[0]= new char[1];
-        cin>>creditos[0];
+        creditos[0]= new int[1];
+        cin>>cr;
+        creditos[0][0]=cr;
+        semana(cr);
+
+        horario[0]= new char[3];
+        //cin.ignore();
+        for(int k=0; k<2;k++){
+            horario[0][k]=hdias[k];
+        }
+        cont=0;
 
 
-        cout << "ingrese horario: ";
-        horario[0]= new char[12];
-        cin.ignore();
-
-        cin.getline(horario[0],12);
 
 
         cout << "ingrese materia : ";
@@ -95,7 +109,7 @@ int main()
         while(a==1){
 
             char **prueba= new char*[1];       // puntero para comprobar si esta repetido el dato-una fila
-            char **prueba1= new char*[1];
+            int **prueba1= new int*[1];
             char **prueba2= new char*[1];
             char **prueba3= new char*[1];
             char **prueba4= new char*[1];
@@ -103,23 +117,27 @@ int main()
             comparacion(b, cc, c, prueba, n, codigo);
 
             cout << "ingrse el numero de creditos ";
-            prueba1[0]= new char[1];           //en la fila cero reservo memoria de 1 columna ya que son creditos
-            cin>>prueba1[0];
+            prueba1[0]= new int[1];           //en la fila cero reservo memoria de 1 columna ya que son creditos
+            cin>>cr;
+            prueba1[0][0]=cr;
+            semana(cr);
 
-            cout << "ingrese horario ";
 
              prueba3[0]= new char[12];
-              cin.ignore();
-              cin.getline(horario[0],12);
+             for(int k=0; k<cont;k++){
+                 prueba3[0][k]=hdias[k];
+
+             }
+             cont=0;
 
             cout << "ingrese materia : ";
-            materia[0]= new char[15];
+            prueba2[0]= new char[15];
             cin.ignore();
-            cin.getline(materia[0],15);
+            cin.getline(prueba2[0],15);
 
 
             char **auxiliar= new char*[n];    // puntero auxuliar para copiar y pegar el de categoria-codigo
-            char **auxiliar1= new char*[n];
+            int **auxiliar1= new int*[n];
             char **auxiliar2= new char*[n];
             char **auxiliar3= new char*[n];
             for(int g=0; g<n; g++){         //hago una copia
@@ -141,7 +159,7 @@ int main()
 
             n++;                         //incremento pa la nueva fila
 
-            creditos= new char*[n];
+            creditos= new int*[n];
             codigo= new char*[n];
             materia= new char*[n];
             horario= new char*[n];
@@ -163,7 +181,7 @@ int main()
 
             codigo[n-1]=new char[10];      //en la ultima fila reservo espacio de memoria 10 columnas
             codigo[n-1]=prueba[0];          //ingreso en la ultima fila la nueva categoria
-            creditos[n-1]=new char[34];
+            creditos[n-1]=new int[34];
             creditos[n-1]=prueba1[0];
             materia[n-1]=new char[15];
             materia[n-1]=prueba2[0];
@@ -190,7 +208,7 @@ int main()
         for (int g=0; g<n; g++){       //visualizar el registro
             cout <<codigo[g]<<" ";
             cout <<materia[g]<<" ";
-            cout <<creditos[g]<<" ";
+            cout <<creditos[g][0]<<" ";
             cout <<horario[g]<<" ";
             cout <<endl;
         }
@@ -205,30 +223,7 @@ int main()
         horario=nullptr;
 
 
-  /*  cout<<"Escoger el dia De la materia "<<endl;
-    cout<<"1 si es lunes \n";
-    cout<<"2 si es martes \n";
-    cout<<"3 si es miercoles \n";
-    cout<<"4 si es jueves \n";
-    cout<<"5 si es viernes \n";
-    cout<<"6 si es sabado \n";
-    cin>>c;
-    switch(c){
 
-      case 1: cout<<"Escogio lunes"<<endl;
-        cout<<"ingrese el codigo de la materia"<<endl;
-
-        break;
-      case 2: cout<<"Escogio marte"<<endl;break;
-      case 3: cout<<"Escogio miercoles "<<endl;break;
-      case 4: cout<<"Escogio jueves"<<endl;break;
-      case 5: cout<<"Escogio viernes"<<endl;break;
-      case 6: cout<<"Escogio sabado"<<endl;break;
-      default: cout<<"no esccogio ningun dia"<<endl;break;
-
-
-    }
-*/
         return 0;
 
 }
@@ -265,6 +260,265 @@ int main()
         }
       }     //--------------------------------------- prueba tendra la nueva categoria a ingresar en categoria
     }
+    int horarios (char d,int s , int e , int dias[7][15] , int j , int cic,int num ,int ca , int cb){
+        for(int i=0;i<=num;i++){
+            if(dias[j][i]==e ){
+                for(int k=0;k<(s-e);k++){
+                    dias[j][i]=0;
+                    i++;
+                    cic=1;
+                }
+            }
+
+            if(cic==0 && i==14){
+                cout<<"Esa horario no esta disponible"<<endl;
+
+            }
+            else if(cic==1 && i==14){
+                cout<<"se registraron el horario"<<endl;
+                crh=crh-(s-e);
+                hdias[cont] =d;
+                cont++;
+                horasd[cont2]=e;
+                cont2++;
+                horasd[cont2]=s;
+                cont2++;
+                for(int k=0;k<=cont2;k++){
+                    if(horasd[k]==e && horasd[k+1]==s){
+                        cout<< hdias <<" "<<horasd[k]<<"-"<<horasd[k+1]<<endl;
+                        k=10;
+                    }
+
+                }
+
+                if(crh==0){
+                    cout<<"ya registro todas las horas"<<endl;
+                    break;
+
+                }
+                else{
+                    cout<<"se registraron "<<(s-e)<<"  horas le falta "<<crh<<" por favor ingrselas"<<endl;
+
+                }
+                for(j=0;j<=6;j++){
+                    for(int i=0;i<=14;i++){
+                        cout<<dias[j][i]<<" ";
+                    }
+                    cout<<"\n";
+                }
+
+
+            }
+
+        }
+        return crh,cont;
+    }
+
+    int semana(int cr){
+        int ca=0 , cb=0,cred=0;
+        int dec;
+        int cic=0 , num=14;
+         if (cr==5) crh=7;
+         else if(cr==4)crh=4;
+
+     while(cred==0){
+
+
+         if(cr>=4 && cr<=5){
+
+           while (ca==0){
+                cout<<"ingrese el dia ";
+                cin>>d;
+                cic=0;
+                cb=0;
+                if (d==109){
+
+                    while (cb==0){
+                        int j=1;
+                        cout<<"ingreso al dia martes"<<endl;
+                        cout<<"ingrese la hora de entrada : ";
+                        cin>>e;
+                        cout<<"ingrese la hora de salida: ";
+                        cin>>s;
+                        horarios (d,s,e,dias,j ,cic,num,ca,cb);
+                        if (crh==0){
+                            ca++;
+                            cb++;
+                            cred++;
+                        }
+                        else{
+                            cout<<"1 si quiere escoger un nuveo dia  ";
+                            cout<<"o 2 si quiere agregar otro horario en este mismo dia: ";cin>>dec;
+                                if(dec==1){
+                                cb++;
+
+
+                            }
+                            else if(dec==2){
+                            }
+                        }
+
+                    }
+                }
+                else if(d==108){
+                    while (cb==0){
+                        int j=0;
+                        cout<<"ingreso al dia lunes"<<endl;
+                        cout<<"ingrese la hora de entrada : ";
+                        cin>>e;
+                        cout<<"ingrese la hora de salida: ";
+                        cin>>s;
+                        horarios (d,s,e,dias,j ,cic,num,ca,cb);
+                        if (crh==0){
+                            ca++;
+                            cb++;
+                            cred++;
+                        }
+                        else{
+                            cout<<"1 si quiere escoger un nuveo dia  ";
+                            cout<<"o 2 si quiere añadir otro horario en este mismo día: ";cin>>dec;
+                                if(dec==1){
+                                cb++;
+
+
+                            }
+                            else if(dec==2){
+                            }
+                        }
+
+                    }
+                }
+                else if(d==119){
+                    while (cb==0){
+                        int j=2;
+                        cout<<"ingreso al dia Miercoles"<<endl;
+                        cout<<"ingrese la hora de entrada : ";
+                        cin>>e;
+                        cout<<"ingrese la hora de salida: ";
+                        cin>>s;
+                        horarios (d,s,e,dias,j ,cic,num,ca,cb);
+                        if (crh==0){
+                            ca++;
+                            cb++;
+                            cred++;
+                        }
+                        else{
+                            cout<<"1 si quiere escoger un nuveo dia  ";
+                            cout<<"o 2 si quiere añadir otro horario en este mismo día: ";cin>>dec;
+                                if(dec==1){
+                                cb++;
+
+
+                            }
+                            else if(dec==2){
+                            }
+                        }
+
+                    }
+                }
+                else if(d==106){
+                    while (cb==0){
+                        int j=3;
+                        cout<<"ingreso al dia Jueves"<<endl;
+                        cout<<"ingrese la hora de entrada : ";
+                        cin>>e;
+                        cout<<"ingrese la hora de salida: ";
+                        cin>>s;
+                        horarios (d,s,e,dias,j ,cic,num,ca,cb);
+                        if (crh==0){
+                            ca++;
+                            cb++;
+                            cred++;
+                        }
+                        else{
+                            cout<<"1 si quiere escoger un nuveo dia  ";
+                            cout<<"o 2 si quiere añadir otro horario en este mismo día: ";cin>>dec;
+                                if(dec==1){
+                                cb++;
+
+
+                            }
+                            else if(dec==2){
+                            }
+                        }
+
+                    }
+                }
+                else if(d==118){
+                    while (cb==0){
+                        int j=4;
+                        cout<<"ingreso al dia Viernes"<<endl;
+                        cout<<"ingrese la hora de entrada : ";
+                        cin>>e;
+                        cout<<"ingrese la hora de salida: ";
+                        cin>>s;
+                        horarios (d,s,e,dias,j ,cic,num,ca,cb);
+                        if (crh==0){
+                            ca++;
+                            cb++;
+                            cred++;
+                        }
+                        else{
+                            cout<<"1 si quiere escoger un nuveo dia  ";
+                            cout<<"o 2 si quiere añadir otro horario en este mismo día: ";cin>>dec;
+                                if(dec==1){
+                                cb++;
+
+
+                            }
+                            else if(dec==2){
+                            }
+                        }
+                    }
+                }
+                else if(d==115){
+                    while (cb==0){
+                        int j=5;
+                        cout<<"ingreso al dia Sabado"<<endl;
+                        cout<<"ingrese la hora de entrada : ";
+                        cin>>e;
+                        cout<<"ingrese la hora de salida: ";
+                        cin>>s;
+                        horarios (d,s,e,dias,j ,cic,num,ca,cb);
+                        if (crh==0){
+                            ca++;
+                            cb++;
+                            cred++;
+                        }
+                        else{
+                            cout<<"1 si quiere escoger un nuveo dia  ";
+                            cout<<"o 2 si quiere añadir otro horario en este mismo día: ";cin>>dec;
+                                if(dec==1){
+                                cb++;
+
+
+                            }
+                            else if(dec==2){
+                            }
+                        }
+                    }
+                }
+                else{
+                    cout<<"Recuerde los dias corresponde"<<endl;
+                    cout<<"l es lunes"<<endl;
+                    cout<<"m es martes"<<endl;
+                    cout<<"w es miercoles"<<endl;
+                    cout<<"j es jueves"<<endl;
+                    cout<<"v es viernes"<<endl;
+                    cout<<"s es sabado";
+                }
+        }
+         }
+
+              else{
+                  cout<<"Debe elegir 4 o 5 creditos"<<endl;
+                  }
+
+         }
+
+
+    return d,e,s;
+      }
 
 
 
