@@ -41,6 +41,7 @@ void comparacion(bool b,int cc, int c, char **prueba, int n, char **codigo);
 int horarios (char d, int s , int e , int dias[7][15] , int j ,int num,int cic,int ca ,int cb);
 int semana(int cr);
 int crh,cr;
+int horases=0;
 char hdias[10];
 int horasd[18];
 int cont=0,cont2=0;
@@ -61,8 +62,11 @@ int dias[7][15]={
 
 int main()
 {
+    cout<<"IMPORTANTE SI QUIERE INGRESAR ALGUN DIA DEBE HACERLO CON SU INICIAL EN MINUSCULA MENOS EL MIERCOLES"<<endl;
+    cout<<"Y LAS HORAS DISPONIBLES SON DE 8-22"<<endl;
+    cout<<"EJEMPLO SI QUIERO INGRESA EL MIERCOLES SERIA CON LA LETRA w"<<endl;
 
-       int cont3=0,cont4=0;
+       int cont3,cont4=0;
        int n=1;    //cantida de filas inicial del arreglo
        int a=1;    // variable para seguir registrando o no
        bool b=false;    // para saber si esta repetida el dato
@@ -81,9 +85,20 @@ int main()
         cin>>codigo[0];
 
 
-        cout << "ingrese numero de creditos: ";
+
         creditos[0]= new int[1];
+        while(cont4==0){
+        cout << "ingrese numero de creditos: ";
         cin>>cr;
+        if (cr==4 || cr==5){
+            cont4++;
+
+        }
+         else{
+              cout<<"Ingrese solamente 4 o 5 creditos"<<endl;
+        }
+        }
+        cont4=0;
         creditos[0][0]=cr;
         semana(cr);
 
@@ -126,9 +141,20 @@ int main()
 
             comparacion(b, cc, c, prueba, n, codigo);
 
-            cout << "ingrse el numero de creditos ";
+
             prueba1[0]= new int[1];           //en la fila cero reservo memoria de 1 columna ya que son creditos
+            while(cont4==0){
+            cout << "ingrese numero de creditos: ";
             cin>>cr;
+            if (cr==4 || cr==5){
+                cont4++;
+
+            }
+             else{
+                  cout<<"Ingrese solamente 4 o 5 creditos"<<endl;
+            }
+            }
+            cont4=0;
             prueba1[0][0]=cr;
             semana(cr);
 
@@ -226,12 +252,16 @@ int main()
             prueba4=nullptr;
 
 
-            cout<<"seguir ingresando=1 -- detenerse=0 :";
+            cout<<"seguir ingresando=1 -- Agregar horas de estudio personales=0 :";
             cin>> a;
             cout<<endl;
     }
+        cout<<"        "<<"ESTE ES SU HORARIO "<<"        "<<endl;
+        cout<<" "<<endl;
+        cout<<"Codigo"<<"  "<<"Materia"<<" "<<"Creditos"<<" "<<"Horario "<<endl;
 
         for (int g=0; g<n; g++){       //visualizar el registro
+           cont=0;
             cout <<codigo[g]<<" ";
             cout <<materia[g]<<" ";
             cout <<creditos[g][0]<<" ";
@@ -242,8 +272,73 @@ int main()
                   }
 
 
+
+
             cout <<endl;
          }
+        cout<<""<<endl;
+        cout<<"Esta es la interfaz para agregar las horas de estudio personal por cada materia "<<endl;
+        cout<<" "<<endl;
+        cout<<"A continuacion le indicaremos los horarios disponibles "<<endl;
+        cout<<"Ademas tambien se mostrara cuantas horas por cada materia debe tomar"<<endl;
+        cout<<" "<<endl;
+            for (int k=0; k<n;k++){
+                horases=creditos[k][0];
+                horases=((horases*48)/18)-(cont3);
+                cout<<"La materia "<<materia[k]<<" tiene "<< horases <<" De estudio personal"<<endl;
+            }
+
+            for (int k=0;k<n;k++){
+                cout<<k<<" Si desea agregar las horas para "<<materia[k]<<endl;
+
+            }
+
+            int mon,ga;
+            int fin=0;
+            ga=n;
+            while(fin==0){
+            cout<<"Elija la materia que desea estudiar: ";
+            cin>>mon;
+            if(mon<=n){
+                if(materia[mon]!=0){
+                cout<<"Eligio el dia "<<materia[mon]<<endl;
+                cont=0;
+                semana(4);
+                cout<<"Este es el horario de estudio personal de "<<materia[mon]<<":  ";
+                for(int k=0;k<cont2;k++){
+                        cout<<hdias[cont]<<" "<<horasd[k]<<"-"<<horasd[k+1]<<" ";
+                        k=k+1;
+                        cont++;
+                    }
+                cout<<" "<<endl;
+                materia[mon]=0;
+                ga--;
+                if(ga==0){
+                    cout<<"Ya ingreso todas las horas de estudio"<<endl;
+                    cout<<"Asi quedo su horario total"<<endl;
+                    cout<<"recuerde que los 0 son horas reservadas"<<endl;
+                    for(int j=0;j<=6;j++){
+                        if(j==0) cout<<"Lunes"<<endl;
+                        else if (j==1) cout<<"Martes"<<endl;
+                        else if (j==2) cout<<"Miercoles"<<endl;
+                        else if (j==3) cout<<"Jueves"<<endl;
+                        else if (j==4) cout<<"Viernes"<<endl;
+                        else if (j==5) cout<<"Sabado"<<endl;
+                        for(int i=0;i<=14;i++){
+                            cout<<dias[j][i]<<" ";
+                        }
+                        cout<<"\n";
+                    }
+                    fin++;
+                }
+                 }
+            else{
+                    cout<<"Esta materia ya no tiene horas de estudio disponible"<<endl;
+
+                }
+            }
+}
+
 
         delete[] codigo;
         codigo=nullptr;
@@ -349,8 +444,13 @@ int main()
         int ca=0 , cb=0,cred=0;
         int dec;
         int cic=0 , num=14;
+        if (horases!=0) {
+            crh=horases;
+        }
+        else{
          if (cr==5) crh=7;
          else if(cr==4)crh=4;
+        }
 
      while(cred==0){
 
