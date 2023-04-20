@@ -41,8 +41,8 @@ void comparacion(bool b,int cc, int c, char **prueba, int n, char **codigo);
 int horarios (char d, int s , int e , int dias[7][15] , int j ,int num,int cic,int ca ,int cb);
 int semana(int cr);
 int crh,cr;
-char hdias[15];
-int horasd[8];
+char hdias[10];
+int horasd[18];
 int cont=0,cont2=0;
 char d ;
 int s, e;
@@ -62,6 +62,7 @@ int dias[7][15]={
 int main()
 {
 
+       int cont3=0,cont4=0;
        int n=1;    //cantida de filas inicial del arreglo
        int a=1;    // variable para seguir registrando o no
        bool b=false;    // para saber si esta repetida el dato
@@ -70,13 +71,13 @@ int main()
 
         int **creditos= new int*[n];   //creo un puntero (nombre)de filas y columnas y reservo espacio de n filas
         char **codigo= new char*[n];
-        char **cedula=new char*[n];
         char **materia= new char*[n];
-        int **horas=new int*[n];
+
         char **horario= new char*[n];
+         int **horas=new int*[n];
 
         cout << "ingrese codigo: ";
-        cedula[0]= new char[10];               //en la fila cero reservo memoria de 10 columnas
+        codigo[0]= new char[10];               //en la fila cero reservo memoria de 10 columnas
         cin>>codigo[0];
 
 
@@ -86,12 +87,21 @@ int main()
         creditos[0][0]=cr;
         semana(cr);
 
-        horario[0]= new char[3];
+        horario[0]= new char[5];
         //cin.ignore();
-        for(int k=0; k<2;k++){
+        for(int k=0; k<cont;k++){
             horario[0][k]=hdias[k];
         }
+
+        horas[0]=new int[8];
+        for (int ho=0;ho<cont2;ho++){
+            horas[0][ho]=horasd[ho];
+        }
+        cont3=cont2;
+
         cont=0;
+        cont2=0;
+
 
 
 
@@ -112,7 +122,7 @@ int main()
             int **prueba1= new int*[1];
             char **prueba2= new char*[1];
             char **prueba3= new char*[1];
-            char **prueba4= new char*[1];
+            int **prueba4= new int*[1];
 
             comparacion(b, cc, c, prueba, n, codigo);
 
@@ -122,13 +132,19 @@ int main()
             prueba1[0][0]=cr;
             semana(cr);
 
+            prueba3[0]= new char[12];
+            for(int k=0; k<cont;k++){
+                prueba3[0][k]=hdias[k];
+            }
 
-             prueba3[0]= new char[12];
-             for(int k=0; k<cont;k++){
-                 prueba3[0][k]=hdias[k];
 
-             }
-             cont=0;
+            prueba4[0]=new int[8];
+            for (int ho=0;ho<cont2;ho++){
+                prueba4[0][ho]=horasd[ho];
+            }
+            cont3=cont2;
+            cont=0;
+            cont2=0;
 
             cout << "ingrese materia : ";
             prueba2[0]= new char[15];
@@ -140,11 +156,13 @@ int main()
             int **auxiliar1= new int*[n];
             char **auxiliar2= new char*[n];
             char **auxiliar3= new char*[n];
+            int **auxiliar4= new int*[n];
             for(int g=0; g<n; g++){         //hago una copia
                 auxiliar[g]=codigo[g];
                 auxiliar1[g]=creditos[g];
                 auxiliar2[g]=materia[g];
                 auxiliar3[g]=horario[g];
+                auxiliar4[g]=horas[g];
 
             }
 
@@ -152,10 +170,12 @@ int main()
             delete[] creditos;
             delete[] materia;
             delete[] horario;
+            delete[] horas;
             codigo=nullptr;
             creditos=nullptr;
             materia=nullptr;
             horario=nullptr;
+            horas=nullptr;
 
             n++;                         //incremento pa la nueva fila
 
@@ -163,20 +183,24 @@ int main()
             codigo= new char*[n];
             materia= new char*[n];
             horario= new char*[n];
+            horas= new int*[n];
             for(int g=0; g<n-1; g++){          //pego lo de auxiliar a categoria
-                cedula[g]=auxiliar[g];
+                codigo[g]=auxiliar[g];
                 creditos[g]=auxiliar1[g];
                 materia[g]=auxiliar2[g];
                 horario[g]=auxiliar3[g];
+                horas[g]=auxiliar4[g];
             }
             delete[] auxiliar;                //libero es espacio en memoria de auxiliar
             delete[] auxiliar1;
             delete[] auxiliar2;
             delete[] auxiliar3;
+            delete[] auxiliar4;
             auxiliar=nullptr;                 //lo referencio a cero
             auxiliar1=nullptr;
             auxiliar2=nullptr;
             auxiliar3=nullptr;
+            auxiliar4=nullptr;
 
 
             codigo[n-1]=new char[10];      //en la ultima fila reservo espacio de memoria 10 columnas
@@ -187,6 +211,9 @@ int main()
             materia[n-1]=prueba2[0];
             horario[n-1]=new char[12];
             horario[n-1]=prueba3[0];
+            horas[n-1]=new int[8];
+            horas[n-1]=prueba4[0];
+
             delete[] prueba;                   //libero espacio de memoria
             prueba=nullptr;                   // referencio a cero
             delete[] prueba1;
@@ -202,16 +229,21 @@ int main()
             cout<<"seguir ingresando=1 -- detenerse=0 :";
             cin>> a;
             cout<<endl;
-
-        }
+    }
 
         for (int g=0; g<n; g++){       //visualizar el registro
             cout <<codigo[g]<<" ";
             cout <<materia[g]<<" ";
             cout <<creditos[g][0]<<" ";
-            cout <<horario[g]<<" ";
+           for(int k=0;k<cont3;k++){
+                    cout<<horario[g][cont]<<" "<<horas[g][k]<<"-"<<horas[g][k+1]<<" ";
+                    k=k+1;
+                    cont++;
+                  }
+
+
             cout <<endl;
-        }
+         }
 
         delete[] codigo;
         codigo=nullptr;
@@ -221,7 +253,6 @@ int main()
         materia=nullptr;
         delete[] horario;
         horario=nullptr;
-
 
 
         return 0;
@@ -286,7 +317,7 @@ int main()
                 for(int k=0;k<=cont2;k++){
                     if(horasd[k]==e && horasd[k+1]==s){
                         cout<< hdias <<" "<<horasd[k]<<"-"<<horasd[k+1]<<endl;
-                        k=10;
+                        k=1+cont2;
                     }
 
                 }
